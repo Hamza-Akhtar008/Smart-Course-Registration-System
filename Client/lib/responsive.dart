@@ -1,0 +1,42 @@
+import 'package:flutter/material.dart';
+
+class Responsive extends StatefulWidget {
+  final Widget mobile;
+  final Widget? tablet;
+  final Widget desktop;
+
+  const Responsive({
+    Key? key,
+    required this.mobile,
+    this.tablet,
+    required this.desktop,
+  }) : super(key: key);
+
+  static bool isMobile(BuildContext context) =>
+      MediaQuery.of(context).size.width < 850;
+
+  static bool isTablet(BuildContext context) =>
+      MediaQuery.of(context).size.width < 1100 &&
+          MediaQuery.of(context).size.width >= 850;
+
+  static bool isDesktop(BuildContext context) =>
+      MediaQuery.of(context).size.width >= 1100;
+
+  @override
+  _ResponsiveState createState() => _ResponsiveState();
+}
+
+class _ResponsiveState extends State<Responsive> {
+  @override
+  Widget build(BuildContext context) {
+    final Size _size = MediaQuery.of(context).size;
+
+    if (_size.width >= 1100) {
+      return widget.desktop;
+    } else if (_size.width >= 850 && widget.tablet != null) {
+      return widget.tablet!;
+    } else {
+      return widget.mobile;
+    }
+  }
+}
